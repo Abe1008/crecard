@@ -133,7 +133,7 @@ function getVal($sql)
 {
   $val = null;
   $res = queryDb($sql);
-  if ($row = fetchRow($res)) $val = $row[0];
+  if($row = fetchRow($res)) $val = $row[0];
   $res->close();
   return $val;
 }

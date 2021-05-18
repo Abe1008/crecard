@@ -10,7 +10,7 @@
  * Time: 14:55
  */
 /*
- * сохранение результата редактирования в поле таблицы opdocs.php
+ * сохранение результата редактирования в поле таблицы
  * https://appelsiini.net/projects/jeditable/
  * должны получить два аргумента id и value
  */
@@ -96,7 +96,7 @@ switch ($l1) {
   default:
     die("?-Error-неверный формат идентификатора редактируемого поля");
 }
-$stmt = prepareSql("UPDATE pays SET $fldnam=? WHERE id=$Id");
+$stmt = prepareSql("UPDATE pays SET $fldnam=? WHERE id=$Id;");
 $stmt->bind_param('s', $fldval);
 if(! $stmt->execute()) die("?-Error-Ошибка обновления записи");
 // $stmt->close();
@@ -105,25 +105,24 @@ echo $f_val;
 
 /**
  * Добавить новую запись для пользователя
- * @param int $opId  код оператора
+ * @param int $userId  код оператора
  */
 function  doNewrecord($userId)
 {
-  global $Uid;
   $f_Dat   = $_REQUEST['f_dat'];    // дата платежа
   $f_Sm    = $_REQUEST['f_sm'];     // сумма платежа
   $f_Prim  = $_REQUEST['f_prim'];   // примечание
   $f_payoff= $_REQUEST['f_payoff']; // признак покупка/платеж
   $sql = "INSERT INTO pays   (uid, dat, sm, prim, payoff)
-                      VALUES (  ?,   ?,  ?,    ?,      ?)";
+                      VALUES (  ?,   ?,  ?,    ?,      ?);";
   $stmt = prepareSql($sql);
-  $stmt->bind_param('isssi', $userId,$f_Dat, $f_Sm,  $f_Prim, $f_payoff);
+  $stmt->bind_param('isssi', $userId,$f_Dat, $f_Sm, $f_Prim, $f_payoff);
   if(! $stmt->execute() ) {
     die("Ошибка записи");
-  };
+  }
   // $stmt->close(); //
   dirtyDolg(1);
-  gotoOper($userId);
+  gotoIndex();
 }
 
 /**
@@ -132,14 +131,14 @@ function  doNewrecord($userId)
  */
 function  doDelRec($idRec)
 {
-  list($ifi, $opId) = get_ifile($idRec); // если не тот регион - сеанс прервется
+  $ifi = get_ifile($idRec); // если не тот регион - сеанс прервется
   if(!empty($ifi)) {
     die("Есть файл вложения");
   }
-  execSQL("DELETE FROM pays WHERE id=$idRec");
+  execSQL("DELETE FROM pays WHERE id=$idRec;");
   //
   dirtyDolg(1);
-  gotoOper($opId);
+  gotoIndex();
 }
 
 /**
@@ -154,8 +153,8 @@ function  doAddDoc($idRec)
   // есть ли уже файл ?
   if ($ifi > 0) die("Файл уже есть");
   $ifile = $MyIfile->addLoadFile($Uid);  // индекс вставленной записи файла
-  execSQL("UPDATE pays SET ifile=$ifile WHERE id=$idRec");
-  gotoOper($Uid);
+  execSQL("UPDATE pays SET ifile=$ifile WHERE id=$idRec;");
+  gotoIndex();
 }
 
 /**
@@ -164,17 +163,17 @@ function  doAddDoc($idRec)
  */
 function  doDelDoc($idRec)
 {
-  global $MyIfile, $Uid;
+  global $MyIfile;
   $ifi = get_ifile($idRec); // не тот регион - прервать работу
   if($ifi > 0) {
-    execSQL("UPDATE pays SET ifile=0 WHERE id=$idRec");  // удалим код файла
+    execSQL("UPDATE pays SET ifile=0 WHERE id=$idRec;");  // удалим код файла
     // проверим кол-во упоминаний этого файла в платежах
-    $a = getVal("SELECT count(*) FROM pays   WHERE ifile=$ifi");
+    $a = getVal("SELECT count(*) FROM pays   WHERE ifile=$ifi;");
     if(intval($a) == 0) {
       $MyIfile->deleteIfile($ifi);  // удалить запись о файле и сам файл
     }
   }
-  gotoOper($Uid);
+  gotoIndex();
 }
 
 /**
@@ -188,7 +187,7 @@ function  doDelDoc($idRec)
 function  get_ifile($idRec)
 {
   global $Uid;
-  $row = getVal("SELECT ifile FROM pays WHERE id=$idRec AND uid=$Uid");
+  $row = getVal("SELECT ifile FROM pays WHERE id=$idRec AND uid=$Uid;");
   $ifi = intval($row);
   // не совпадает - убиваем сеанс
   //if($ifi < 1) die(BAD_REGION);  // не совпадает регион - убиваем сеанс
@@ -196,10 +195,9 @@ function  get_ifile($idRec)
 }
 
 /**
- * Перейти на страницу заметок указанного оператора
- * @param int $opId  код оператора
+ * Перейти на страницу списка
  */
-function  gotoOper($opId)
+function  gotoIndex()
 {
   gotoLocation("index.php");
 }

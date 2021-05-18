@@ -79,7 +79,7 @@ _EOF;
 $sql = "SELECT id,dat,sm,prim,ost, f.file_name 
         FROM pays LEFT JOIN p_files as f ON (pays.ifile=f.ifile)
         WHERE uid=$Uid AND payoff=$PayOff 
-        ORDER BY dat,id";
+        ORDER BY dat,id;";
 $res = queryDb($sql); //
 while (list($id,$dat,$sm,$prim,$ost, $fnam) = fetchRow($res)) {
   $dats = dat2str($dat);
@@ -139,15 +139,6 @@ $(document).ready(function(){
   // подключим редактирование "в таблице на месте"
   $('td.edt').editable('paysave.php', {
     placeholder: '...'
-  });
-  // подключим редактирование "в таблице на месте"
-  $('td.edtsel').editable('paysave.php', 
-  {
-     placeholder: '',
-     data   : " {'E':'Letter E','F':'Letter F','G':'Letter G', 'selected':'F'}",
-     //data: '$jsonTip',
-     type: 'select'
-     /* submit : 'OK' */
   });
   // подключим добавление документов
   $('.fileupload').fileupload()
