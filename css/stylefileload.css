@@ -1,0 +1,31 @@
+.file-upload {
+    position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
+    overflow: hidden; /* Все что выходит за пределы - скрываем */
+    width: 12px; /* Задаем ширину кнопки выбора файла */
+    height: 12px; /* Задаем высоту кнопки выбора файла */
+    background: #a9f86f;
+    border-radius: 6px;
+    padding: 2px 2px;
+    color: #2e38ee;
+    font-weight: bold;
+    text-align: center;
+}
+.file-upload:hover {
+    background: #7aad55;
+}
+.file-upload input[type="file"]{
+    display: none; /* Обязательно скрываем настоящий Input File */
+}
+.file-upload label {
+    /* Растягиваем label на всю возможную площадь блока .file-upload */
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.file-upload span {
+    line-height: 10px; /* Делаем вертикальное выравнивание текста, который написан на кнопке */
+}
