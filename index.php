@@ -20,15 +20,6 @@ require_once "common.php";
 
 printHeadPageEdt("Данные о платежах 1");
 
-// установим признак возможности редактирования строки оператора по региону
-//$canEditOp = isCanEditOp($Op_Id);
-
-// $ud = ($canEditOp)? 'уд.': '';
-$ud = 'уд.';
-
-// новая запись оправдания
-$datt = date("Y-m-d");
-
 $sTit = $PayOff == 0? "Покупки": "Оплата";
 $sGo  = $PayOff == 0? "оплаты": "покупки";
 $ipay = $PayOff == 0? 1: 0;
@@ -37,7 +28,15 @@ $ipay = $PayOff == 0? 1: 0;
 if(dirtyDolg()) {
   require_once "calculation.php";
 }
-$sdolg = sprintf("%.2f", Dolg());
+$dolg  = Dolg(); // долг
+$spodp = ($dolg > 0)? '<span class="txtred">долг ': '<span class="txtgrn">переплата ';
+$sdolg = $spodp . sprintf("%.2f", abs($dolg)) . '</span> ' .
+         '&nbsp; остаток ' . sprintf("%.2f", Ostatok());
+// дата новой записи
+$datt = date("Y-m-d");
+
+// вход-выход
+$form_login = makeFormLogin($_SERVER['PHP_SELF']);  // форма авторизации
 
 echo <<<_EOF
 
@@ -45,7 +44,8 @@ echo <<<_EOF
 <tr>
 <td width="30%" class="showdocnote"><b>$sTit</b></td>
 <td class="showdocnote" align="right"><b>$sdolg</b></td>
-<td width="30%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
+<td width="9%" align="right">$form_login</td>
+<td width="20%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
 </tr>
 </table>
 
@@ -70,7 +70,7 @@ echo <<<_EOF
  <th width="15%">сумма</th>
  <th>примечание</th>
  <th width="4%">док.</th>
- <th width="18px">$ud</th>
+ <th width="18px">уд.</th>
 </tr></thead>
 <tbody class="hightlight">
 

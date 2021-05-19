@@ -299,6 +299,14 @@ a.godoc:hover {
     color: #c02430;
 }
 
+.txtred {
+    color: red;
+}
+
+.txtgrn {
+    color: green;
+}
+
 /* скролирование вверх страницы по кнопке */
 #toTop {
     /* width:40px; */

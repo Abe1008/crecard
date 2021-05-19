@@ -20,14 +20,18 @@ require_once "MyDB.php";
 // объект базы данных
 $My_Db = new MyDB() ;
 session_start();
-$_SESSION['creUid'] = 0; // в начале - точно не зарегистрирован
+uID(0); // в начале - точно не зарегистрирован
+dirtyDolg(1);
 
 $title ="Авторизация пользователя";
 
 $self = $_SERVER['PHP_SELF'];
 
-$error_message = $_SESSION['error_message']; // текст сообщения об ошибке
-unset($_SESSION['error_message']);
+$error_message = '';
+if(array_key_exists('cre_error_message', $_SESSION)) {
+  $error_message = $_SESSION['cre_error_message']; // текст сообщения об ошибке
+}
+unset($_SESSION['cre_error_message']);
 
 $goto = $_REQUEST['goto'];  // куда переходить после успешной регистрации
 // был аргумент goto - куда переходить?
@@ -59,12 +63,6 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <form action='$self' method='POST'>
-  <input type='hidden' name='cmd' value="777">
-  <input type='hidden' name='goto' value="$goto">
-  <input type='submit' class='loginipadr' value='по адресу $ipadr'>  
-  </form>
-  
   <p> <a href="$goto" class="inputoutput">продолжить без авторизации</a> </p>
 _EOF;
   printEndPage();
@@ -74,15 +72,7 @@ _EOF;
 // человеческий ввод данных формы, в пароле не должно быть апострофов.
 if($cmd == 101) {
   // обработка ввода данных формы
-  $pass = str_replace("'", "", $_REQUEST['new_pass']);  // из пароля уберем апостофы
-  malogin($_REQUEST['new_user'], $pass, $goto, $self);
-  exit();
-}
-
-// авторизация по IP адресу, пароль с апострофами: 'ip'
-// пароль в функции не обрабатывается
-if($cmd == 777) {
-  malogin($_SERVER['REMOTE_ADDR'], "\\'ip\\'", $goto, $self);
+  malogin($_REQUEST['new_user'], $_REQUEST['new_pass'], $goto, $self);
   exit();
 }
 
@@ -98,12 +88,13 @@ echo "НЕИЗВЕСТНОЕ СОСТОЯНИЕ";
 function malogin($user, $pass, $goto, $self)
 {
   // обработка ввода данных формы
-  $u = str_replace("'", "", $user);
-  $sql = "SELECT uid FROM users WHERE email='$u' AND pwd='$pass'";
-  list($ui, $re) = getVals($sql);
+  $u = str_replace("'", "", $user);   // из имени уберем апострофы
+  $p = str_replace("'", "", $pass);   // из пароля уберем апостофы
+  $sql = "SELECT uid FROM users WHERE email='$u' AND pwd='$p'";
+  $ui = intval(getVal($sql));
   if($ui) {
     // авторизация выполнена
-    $_SESSION['creUid'] = $ui;
+    uID($ui);
     // запротоколируем вход
     $uip = s2s($_SERVER['REMOTE_ADDR']);
     $ugt = s2s($goto);
@@ -117,7 +108,7 @@ function malogin($user, $pass, $goto, $self)
   } else {
     // авторизация не прошла
     sleep(1);
-    $_SESSION["error_message"] = "<span style='color: red'>Неверное имя или пароль!</span>";
+    $_SESSION["cre_error_message"] = "<span style='color: red'>Неверное имя или пароль!</span>";
     //переводим на себя
     unset($_POST['cmd']);
     unset($_GET['cmd']);

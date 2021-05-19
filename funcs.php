@@ -9,6 +9,19 @@
 /*
  * Библиотека общих функций
  */
+// имя переменной сессии
+// код пользователя
+define('UID', 'cre_uid');
+// признак - грязный долг (надо пересчитывать)
+define('DIRTYDOLG', 'cre_dirty_dolg');
+// значение долга
+define('DOLG', 'cre_dolg');
+// значение остатка (лимит-долг)
+define('OSTATOK', 'cre_ostatok');
+// признак платежи-оплаты
+define('PAYOFF', 'cre_payoff');
+// признак возможности редактировать
+define('CANEDIT', 'cre_canedit');
 
 /**
  * Преобразование даты из формата SQL в строку русского формата DD.MM.YYYY
@@ -237,8 +250,8 @@ function test_timeout_user_actitiviti($tmout)
   $tsses = intval($_SESSION['cre_datatime_work_metka']);
   $_SESSION['cre_datatime_work_metka'] = $tsnow;
   if($tmout > 0 && $tsses > 0 && ($tsnow - $tsses) > $tmout) {
-    unset($_SESSION['creUid']);
-    $_SESSION["error_message"] = "<span style='color: blue'>Истекло время ожидания...</span>";
+    uID(0);
+    $_SESSION["cre_error_message"] = "<span style='color: blue'>Истекло время ожидания...</span>";
   }
 }
 
@@ -280,7 +293,7 @@ function makeFormLogin($UrlGoto = null)
     $t = "title='$t'";
   }
   if(empty($UrlGoto)) $UrlGoto = $_SERVER['PHP_SELF'];
-  $r = "<form method='post' action='../login.php' $t>" .
+  $r = "<form method='post' action='login.php' $t>" .
        "<input type='hidden' name='goto' value='$UrlGoto'>" .
        "<input type='submit' class='inputoutput' value='$s'>" .
        "</form>";
@@ -288,21 +301,25 @@ function makeFormLogin($UrlGoto = null)
 }
 
 /**
+ * Установить или получить код пользователя
+ * @param int $uid код пользователя, если аргумент не задан
+ *                 вернуть текущее значение
+ * @return int текущий пользователь
+ */
+function uID($uid = null)
+{
+  return sessionVal(UID, 0, $uid);
+}
+
+/**
  * Поставить признак "грязного долга", который надо пересчитать
  * @param int $flag признак 0-не пересчитывать, 1-пересчитывать, если аргумент не задан
  *                  вернуть текущее значение
- * @return int текущее значение притзнак грязного долга
+ * @return int текущее значение признак грязного долга
  */
 function dirtyDolg($flag = null)
 {
-  if(is_null($flag)) {
-    if(!array_key_exists(DIRTYDOLG, $_SESSION)) {
-      $_SESSION[DIRTYDOLG] = 1;
-    }
-  } else {
-    $_SESSION[DIRTYDOLG] = $flag;
-  }
-  return $_SESSION[DIRTYDOLG];
+  return sessionVal(DIRTYDOLG, 1, $flag);
 }
 
 /**
@@ -310,14 +327,42 @@ function dirtyDolg($flag = null)
  * @param null|double $val установить значение долга или пусто, тогда вернуть значение долга
  * @return int сумма долга
  */
-function Dolg($val = null)
+function  Dolg($val = null)
+{
+  return sessionVal(DOLG, 0, $val);
+}
+
+function  Ostatok($val = null)
+{
+  return sessionVal(OSTATOK, 0, $val);
+}
+
+/**
+ * Вернуть значение возможности редактировать или установить его
+ * @param null|int $flag установить значение признака или пусто, тогда
+ *                       вернуть значение признака
+ * @return int признак
+ */
+function canEdit($flag = null)
+{
+  return sessionVal(CANEDIT, 0, $flag);
+}
+
+/**
+ * Установить или получить значение переменной в сессии
+ * @param string   $nameVal  имя переменной
+ * @param int      $initVal  значение по-умолчанию
+ * @param null|int $val      устанавливаемой значение
+ * @return int значение
+ */
+function sessionVal($nameVal, $initVal, $val = null)
 {
   if(is_null($val)) {
-    if(!array_key_exists(DOLG, $_SESSION)) {
-      $_SESSION[DOLG] = 0;
+    if(!array_key_exists($nameVal, $_SESSION)) {
+      $_SESSION[$nameVal] = $initVal;
     }
   } else {
-    $_SESSION[DOLG] = $val;
+    $_SESSION[$nameVal] = $val;
   }
-  return $_SESSION[DOLG];
+  return $_SESSION[$nameVal];
 }

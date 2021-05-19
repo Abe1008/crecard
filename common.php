@@ -18,16 +18,6 @@ $My_Db = new MyDB() ;
 // время ожидания активности пользователя, сек (3 ч)
 define('TIMEOUT_USER_ACTIVITI', 10800); //10800
 
-// имя переменной сессии
-// код пользователя
-define('UID', 'cre_uid');
-// признак - грязный долг (надо пересчитывать)
-define('DIRTYDOLG', 'cre_dirty_dolg');
-// значение долга
-define('DOLG', 'cre_dolg');
-// признак платежи-оплаты
-define('PAYOFF', 'cre_payoff');
-
 require_once "funcs.php";
 // запуск сессии
 session_start();
@@ -37,10 +27,7 @@ if(!array_key_exists(UID, $_SESSION)) {
   $_SESSION[UID] = 0;
 }
 // код пользователя
-$Uid = intval($_SESSION[UID]);
-
-//TODO для отладки
-$Uid = 1;
+$Uid = uID();
 
 if($Uid > 0) {
   // время ожидания активности пользователя
