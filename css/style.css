@@ -299,12 +299,17 @@ a.godoc:hover {
     color: #c02430;
 }
 
-.txtred {
+.txtdolg {
     color: red;
+    font-weight: bold;
 }
 
-.txtgrn {
+.txtostatok {
     color: green;
+}
+
+.txtminpay {
+    color: #1a15e5;
 }
 
 /* скролирование вверх страницы по кнопке */

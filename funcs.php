@@ -14,10 +14,15 @@
 define('UID', 'cre_uid');
 // признак - грязный долг (надо пересчитывать)
 define('DIRTYDOLG', 'cre_dirty_dolg');
-// значение долга
+// значение общего долга
 define('DOLG', 'cre_dolg');
 // значение остатка (лимит-долг)
 define('OSTATOK', 'cre_ostatok');
+// минимальная оплата в дату безпроцентной оплаты
+define('MINIMALPAY', 'cre_minimalpay');
+// дата безпроцентной оплаты
+define('DATEPAY', 'cre_datepay');
+
 // признак платежи-оплаты
 define('PAYOFF', 'cre_payoff');
 // признак возможности редактировать
@@ -319,22 +324,43 @@ function uID($uid = null)
  */
 function dirtyDolg($flag = null)
 {
-  return sessionVal(DIRTYDOLG, 1, $flag);
+  return  sessionVal(DIRTYDOLG, 1, $flag);
 }
 
 /**
  * Вернуть значение долга или установить его
  * @param null|double $val установить значение долга или пусто, тогда вернуть значение долга
- * @return int сумма долга
+ * @return string сумма долга
  */
 function  Dolg($val = null)
 {
-  return sessionVal(DOLG, 0, $val);
+  $s = sessionVal(DOLG, 0, $val); // долг
+  $r = sprintf('%.2f', 0 + $s);
+  return  $r;
 }
 
 function  Ostatok($val = null)
 {
-  return sessionVal(OSTATOK, 0, $val);
+  $s = sessionVal(OSTATOK, 0, $val); // остаток средств
+  $r = sprintf('%.2f', 0 + $s);
+  return  $r;
+}
+
+function  minimalPay($val = null)
+{
+  $s = sessionVal(MINIMALPAY, 0, $val); // сумма минимального платежа
+  $r = sprintf('%.2f', 0 + $s);
+  return  $r;
+}
+
+function  datePay($val = null)
+{
+  return  sessionVal(DATEPAY, 0, $val);
+}
+
+function  payOff($val = null)
+{
+  return  sessionVal(PAYOFF, 0, $val);
 }
 
 /**

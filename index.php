@@ -29,9 +29,18 @@ if(dirtyDolg()) {
   require_once "calculation.php";
 }
 $dolg  = Dolg(); // долг
-$spodp = ($dolg > 0)? '<span class="txtred">долг ': '<span class="txtgrn">переплата ';
-$sdolg = $spodp . sprintf("%.2f", abs($dolg)) . '</span> ' .
-         '&nbsp; остаток ' . sprintf("%.2f", Ostatok());
+$mp = minimalPay(); // минимальный платеж для безпроцентности
+
+$sdolg = '';
+if($dolg > 0) {
+  $sdolg = '<span class="txtdolg">долг ' . $dolg . '</span>' ;
+}
+$sost = '<span class="txtostatok">остаток ' . Ostatok(). '</span>';
+$sdapla = '';
+if($mp > 0.005) {
+  $sdapla = '<span class="txtminpay">дата платежа ' . datePay() . " мин.сумма " . minimalPay() . '</span>';
+}
+
 // дата новой записи
 $datt = date("Y-m-d");
 
@@ -43,7 +52,7 @@ echo <<<_EOF
 <table width="100%" border="0">
 <tr>
 <td width="30%" class="showdocnote"><b>$sTit</b></td>
-<td class="showdocnote" align="right"><b>$sdolg</b></td>
+<td class="showdocnote" align="right">$sdolg &nbsp; $sost &nbsp; $sdapla</td>
 <td width="9%" align="right">$form_login</td>
 <td width="20%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
 </tr>
