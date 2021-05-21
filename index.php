@@ -18,7 +18,7 @@ require_once "common.php";
 // открытая БД $My_Db
 // переменные $creUid
 
-printHeadPageEdt("Данные о платежах 1");
+printHeadPageEdt("Данные о платежах");
 
 $sTit = $PayOff == 0? "Покупки": "Оплата";
 $sGo  = $PayOff == 0? "оплаты": "покупки";
@@ -33,12 +33,12 @@ $mp = minimalPay(); // минимальный платеж для безпроц
 
 $sdolg = '';
 if($dolg > 0) {
-  $sdolg = '<span class="txtdolg">долг ' . $dolg . '</span>' ;
+  $sdolg = "<span class=\"txtdolg\">долг $dolg</span>" ;
 }
 $sost = '<span class="txtostatok">остаток ' . Ostatok(). '</span>';
 $sdapla = '';
 if($mp > 0.005) {
-  $sdapla = '<span class="txtminpay">дата платежа ' . datePay() . " мин.сумма " . minimalPay() . '</span>';
+  $sdapla = '<span class="txtminpay">дата платежа ' . datePay() . " мин.сумма $mp</span>";
 }
 
 // дата новой записи
@@ -85,7 +85,7 @@ echo <<<_EOF
 
 _EOF;
 
-$sql = "SELECT id,dat,sm,prim,ost, f.file_name 
+$sql = "SELECT id,dat,sm,prim, f.file_name 
         FROM pays LEFT JOIN p_files as f ON (pays.ifile=f.ifile)
         WHERE uid=$Uid AND payoff=$PayOff 
         ORDER BY dat,id;";
@@ -127,7 +127,7 @@ while (list($id,$dat,$sm,$prim,$ost, $fnam) = fetchRow($res)) {
   echo "<td align='center'>$fr</td>";
   echo "</tr>\n";
 }
-// $res->close();
+$res->close();
 echo "</tbody></table>\n";
 
 // кнопка скролирования вверх

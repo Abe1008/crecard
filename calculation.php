@@ -17,11 +17,13 @@
 
 require_once "common.php";
 
+$starttime = microtime(true); // начало скрипта
+
 list($r,$g, $lim) = getVals("SELECT rday, gracedays, lim  FROM users WHERE uid=$Uid");
 $RDay       = intval($r); // расчетный день
 $GraceDays  = intval($g); // безпроцентный период
 
-if($RDay < 1 || $GraceDays < 1) die("Нет данных для расчета");
+if($RDay < 1 || $GraceDays < 1) echo("Нет данных для расчета ");
 
 $ssql = "CREATE TEMPORARY TABLE tmp_tabl (
               id int auto_increment primary key,
@@ -40,7 +42,7 @@ $sost = 0.0 + $suop; // остаток от суммы оплат
 $sql = "SELECT id,dat,sm FROM pays WHERE uid=$Uid AND payoff=0 ORDER BY dat,id;";
 $res = queryDb($sql); //
 $sdolg = 0.0;
-while (list($id,$dat,$sm) = fetchRow($res)) {
+while(list($id,$dat,$sm) = fetchRow($res)) {
   $s = 0.0 + $sm;
   $suop = $suop - $s;     // баланс счета
   if($s <= $sost) {
@@ -61,14 +63,18 @@ $datpay = getVal("SELECT MIN(dato) from tmp_tabl WHERE uid=$Uid AND ost > 0.005"
 $minpay = 0.01 * intval(getVal("SELECT 100*SUM(ost) FROM tmp_tabl WHERE uid=$Uid AND dato='$datpay';"));  // ближайшая сумма оплаты
 
 // выставим флаги, суммы
-dirtyDolg(0);
-Dolg($sdolg);
-minimalPay($minpay);
-datePay($datpay);
-Ostatok($lim + $suop);
+dirtyDolg(0);               // признак пересекта долга
+Dolg($sdolg);                   // сумма долга
+minimalPay($minpay);            // сумма минимального платежа
+datePay(date2rus($datpay));     // дата минимального платежа
+Ostatok($lim + $suop);      // остаток на счета
 
-// отобразим на экране строку
-echo "<small>calculation " . date("Y-m-d H:i") ."</small>\n";
+// время выполнения
+$finishtime = microtime(true);
+$str = sprintf('%0.3f', $finishtime - $starttime);
+
+// отобразим на экране строку с времен выполнения
+echo "<small>calculation $str sec</small>\n";
 
 /**
  * Расчет даты оплаты долга без процентов
@@ -80,10 +86,7 @@ function dolgDay($dat)
   global  $RDay, $GraceDays;
   // http://old.code.mu/books/php/base/rabota-s-datami-v-php.html
   $dat1 = date_create($dat);
-  list($y1, $m1, $d1) = date2ymd($dat1);
-//  $y1 = $dat1->format('Y');  // год даты
-//  $m1 = $dat1->format('m');  // месяц даты
-//  $d1 = $dat1->format('d');  // число даты
+  list($y1, $m1, $d1) = date2ymd($dat1); // дата год, месяц, число
   $yr = $y1;
   $mr = $m1;
   // если число операции больше расчетного дня, то расчетный день операции будет
@@ -97,8 +100,8 @@ function dolgDay($dat)
   https://www.tinkoff.ru/cards/credit-cards/tinkoff-platinum/faq/how-to-use-a-credit-card/grace-period/
   $rd = onmonthday($yr,$mr, $RDay);  // дата расчетного периода для данного платежа
   $do = $rd -> modify("$GraceDays days");  // прибавляем грэйс период
-  $sdo = $do->format('Y-m-d');
-  return $sdo;
+  $sd = $do -> format('Y-m-d');
+  return $sd;
 }
 
 /**
@@ -114,13 +117,15 @@ function  onmonthday($y, $m, $d)
   $y = intval($y);  $m = intval($m);  $d = intval($d);
   $s = sprintf('%04d-%02d-%02d', $y, $m, $d);
   $dat = date_create($s);
-  $m1 = intval($dat->format('m'));
+  $m1 = intval($dat->format('m'));  // месяц
   if($m1 != $m) {
-    // если месяц различается, значит число больше числа дней
+    // если месяц различается, значит число больше числа дней в месяце
     $s = sprintf('%04d-%02d-01', $y,$m);
-    $d1 = date_create($s);
-    $d2 = $d1 -> modify('1 month');
-    $dat = $d2 -> modify('-1 day');
+    $d1 = date_create($s);              // первый день месяца даты
+    //$d2 = $d1 -> modify('1 month');
+    //$dat = $d2 -> modify('-1 day');
+    $s = $d1 -> format('Y-m-t');  // последний день месяца
+    $dat = date_create($s);
   }
   return $dat;
 }
@@ -136,4 +141,16 @@ function  date2ymd(DateTime $dat)
   $m = $dat->format('m');  // месяц даты
   $d = $dat->format('d');  // число даты
   return array(intval($y),intval($m),intval($d));
+}
+
+/**
+ * Преобразовать дату из SQL формат в русский
+ * @param string $strdat дата в формате SQL YYYY-MM-DD
+ * @return string дата в русском формате ДД.ММ.ГГГГ
+ */
+function  date2rus($strdat)
+{
+  $d = date_create($strdat);
+  $s = $d->format('d.m.Y');
+  return $s;
 }
