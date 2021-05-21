@@ -13,6 +13,11 @@
 
 /*
  * Вычислить долг по платежам
+ *
+ * Справки:
+ * https://www.tinkoff.ru/cards/credit-cards/tinkoff-platinum/faq/how-to-use-a-credit-card/grace-period/
+ * https://journal.tinkoff.ru/grace-period/
+ *
  */
 
 require_once "common.php";
