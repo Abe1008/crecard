@@ -106,7 +106,7 @@ while (list($id,$dat,$sm,$prim,$ost, $fnam) = fetchRow($res)) {
     // есть имя документа, его можно открыть
     $ff = "<a href='files/$fnam' target='_blank' class='nounderline' title='открыть документ'>".
         "<img src='img/doc_open.png' alt='открыть документ'></a>";
-    // есть документ  - можно удалить документ
+    // есть документ - можно удалить документ
     $fr = "<a href='paysave.php?delDoc=$id' onclick='return confirm(\"Удалить документ?\")' title='удалить документ'><img src='img/doc_del.png' alt='удалить'></a>";
   } else {
     // нет имени документа - можно добавить документ или удалить запись
@@ -121,7 +121,7 @@ while (list($id,$dat,$sm,$prim,$ost, $fnam) = fetchRow($res)) {
 
   echo "<tr>";
   echo "<td $cledt id='D$id'>$dats</td>";  // D дата
-  echo "<td $cledt id='S$id' align='right'>$sms</td>";                // S сумма
+  echo "<td $cledt id='S$id' align='right'>$sms</td>";      // S сумма
   echo "<td $cledt id='P$id'>$prim</td>";                   // P примечание
   echo "<td align='center'>$ff</td>";
   echo "<td align='center'>$fr</td>";
@@ -156,4 +156,5 @@ $(document).ready(function(){
 </script>
 
 _EOF;
+
 printEndPage();
