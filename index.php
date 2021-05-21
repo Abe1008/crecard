@@ -76,7 +76,7 @@ echo <<<_EOF
 <table width="100%" class="spis" border="1">
 <thead class="thdr"><tr>
  <th width="6%">дата</th>
- <th width="15%">сумма</th>
+ <th width="10%">сумма</th>
  <th>примечание</th>
  <th width="4%">док.</th>
  <th width="18px">уд.</th>
