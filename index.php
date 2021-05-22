@@ -90,7 +90,7 @@ $sql = "SELECT id,dat,sm,prim, f.file_name
         WHERE uid=$Uid AND payoff=$PayOff 
         ORDER BY dat,id;";
 $res = queryDb($sql); //
-while (list($id,$dat,$sm,$prim,$ost, $fnam) = fetchRow($res)) {
+while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
   $dats = dat2str($dat);
   $sms  = sprintf('%.2f',$sm);
   $ff = '';

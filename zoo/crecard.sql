@@ -22,9 +22,9 @@ create table pays
   uid    int                      not null comment 'индекс пользователя',
   dat    date                     not null comment 'дата платежа',
   sm     double default 0         not null comment 'сумма платежа',
+  payoff int    default 0         not null comment 'признак погашения долга',
   prim   varchar(255)             null     comment 'примечание',
-  ifile  int                      null     comment 'файл вложения (например скан чека)',
-  payoff int    default 0         not null comment 'признак погашения долга'
+  ifile  int                      null     comment 'файл вложения (например скан чека)'
 )  comment 'платежи пользователей' engine = MyISAM charset = utf8;
 
 create table tmp_tabl
