@@ -97,11 +97,9 @@ while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
   $fr = '';
   // есть имя документа
   // запись "можно редактировать" или нельзя?
-  $cledt = '';
-  $cledtsel = '';
+  //$cledt = '';
   // если "можно редактировать" запись.
   $cledt = 'class="edt"';
-  $cledtsel = 'class="edtsel"';
   if($fnam) {
     // есть имя документа, его можно открыть
     $ff = "<a href='files/$fnam' target='_blank' class='nounderline' title='открыть документ'>".
