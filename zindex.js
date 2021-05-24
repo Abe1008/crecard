@@ -11,28 +11,28 @@
 //
 // http://qaru.site/questions/tagged/datatables .
 $(document).ready(function(){
-    $('#myTable').DataTable( {
-      //  scrollY:        "85vh",
-      //  scrollCollapse: true,
-      info:        true,
-      paging:      false,
-      // размещение элемнтов https://datatables.net/reference/option/dom
-      dom: 'ift',   // https://stackoverflow.com/questions/8355638/datatables-place-search-and-entries-filter-under-the-table
-      // https://datatables.net/reference/option/language
-      language: {
-        search:       "поиск:",
-        zeroRecords:  "нет совпадающих записей",
-        info:         "записей _TOTAL_",
-        infoEmpty:    "совпадений 0",
-        infoFiltered: "(всего _MAX_)"
-      },
-      // не сортировать и не искать где столбцы с классом 'nosort'
-      // https://datatables.net/reference/option/columnDefs.targets .
-      columnDefs: [
-        { targets: "nosort", orderable:  false },
-        { targets: "nosort", searchable: false }
-      ]
-    } );
+    // $('#myTable').DataTable( {
+    //   //  scrollY:        "85vh",
+    //   //  scrollCollapse: true,
+    //   info:        true,
+    //   paging:      false,
+    //   // размещение элемнтов https://datatables.net/reference/option/dom
+    //   dom: 'ift',   // https://stackoverflow.com/questions/8355638/datatables-place-search-and-entries-filter-under-the-table
+    //   // https://datatables.net/reference/option/language
+    //   language: {
+    //     search:       "поиск:",
+    //     zeroRecords:  "нет совпадающих записей",
+    //     info:         "записей _TOTAL_",
+    //     infoEmpty:    "совпадений 0",
+    //     infoFiltered: "(всего _MAX_)"
+    //   },
+    //   // не сортировать и не искать где столбцы с классом 'nosort'
+    //   // https://datatables.net/reference/option/columnDefs.targets .
+    //   columnDefs: [
+    //     { targets: "nosort", orderable:  false },
+    //     { targets: "nosort", searchable: false }
+    //   ]
+    // } );
 
     // автоматизация кнопки"наверх"
     // отображение кнопки

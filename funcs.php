@@ -87,41 +87,33 @@ function validateDate($dat, $format = 'Y-m-d')
 /**
  * Формирует начало страницы html
  * @param string $title    заголовок страницы
- * @param string $t        добавка в заголовок
  */
-function printHeadPage($title, $t='')
+function printHeadPage($title)
 {
   echo <<<_EOF
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>$title</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">  
   <link rel="stylesheet" type="text/css" href="css/stylefileload.css">
-  <link rel="stylesheet" type="text/css" href="css/popup.css">
+  
   <script type="text/javascript" language="javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
-$t
+  <script type="text/javascript" language="javascript" src="js/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+  
+  <script type="text/javascript" language="javascript" src="js/jquery.jeditable.js"></script>
+  <script type="text/javascript" language="javascript" src="js/jquery.jeditable.datepicker.js"></script>
+  
+  <script type="text/javascript" language="javascript" src="js/vendor/jquery.ui.widget.js"></script>
+  <script type="text/javascript" language="javascript" src="js/jquery.fileupload.js"></script>
+
 </head>
 <body>
 
 _EOF;
-}
-
-/**
- * Заголовок страницы с редактированием таблиц
- * @param string $title заголовок
- */
-function printHeadPageEdt($title)
-{
-  $t = <<<_EOF
-  <script type="text/javascript" language="javascript" src="js/jquery.jeditable.js"></script>
-  <script type="text/javascript" language="javascript" src="js/vendor/jquery.ui.widget.js"></script>
-  <script type="text/javascript" language="javascript" src="js/jquery.fileupload.js"></script>
-_EOF;
-  printHeadPage($title, $t);
 }
 
 /**
@@ -300,7 +292,7 @@ function makeFormLogin($UrlGoto = null)
   if(empty($UrlGoto)) $UrlGoto = $_SERVER['PHP_SELF'];
   $r = "<form method='post' action='login.php' $t>" .
        "<input type='hidden' name='goto' value='$UrlGoto'>" .
-       "<input type='submit' class='inputoutput' value='$s'>" .
+       "<input type='submit' class='buttonlogin' value='$s'>" .
        "</form>";
   return $r;
 }

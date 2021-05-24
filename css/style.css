@@ -10,19 +10,7 @@ table.spis td {
     border:1px solid #4e6c6b;
     padding: 4px;
     background-color: #98d7a4;
-    font-size: small;
-}
-
-/* уменьшенный шрифт для ИНН */
-.nin {
-    font-family: "Calibri", sans-serif;
-    /* font-size: small; */
-}
-
-/* уменьшенный шрифт для ОГРН */
-.nog {
-    font-family: "Times New Roman", serif;
-    /* font-size: small; */
+    font-size: 1vw;
 }
 
 /* подсветить строку таблицу под мышью http://htmlbook.ru/faq/kak-sdelat-chtoby-stroka-tablitsy-menyala-tsvet */
@@ -30,55 +18,11 @@ tbody.hightlight tr:hover {
     background-color: #e7faf8;
 }
 
-.pn {
-    font-family: Arial, sans-serif;
-    font-size: small;
-    text-align: center;
-}
-
-.pnleft {
-    font-family: Arial, sans-serif;
-    font-size: small;
-    text-align: left;
-}
-
-tr.off, td.off {
-    color: #2a0b9b; background: #eeb98c;
-}
-
-.dataobnovl {
-    font-family: Arial, sans-serif;
-    font-size: small;
-    text-align: right;
-    color: darkcyan;
-}
-
-/* оператор удален */
-.del {
-    /* text-decoration: line-through; */
-    /* background-color: #d9e6fb; */
-    color: #7a7a52;
-    opacity: 0.5;
-    font-weight: lighter;
-}
-
-.del:hover::after {
-    content: attr(data-title);
-}
-
 /* информация на желтом фоне */
 .info {
     font-family: "Calibri", sans-serif;
-    font-size: small;
     color: #0000d3;
     background-color: #e8edb5;
-}
-
-/* информация темно синими буквами */
-.infopn {
-    font-family: "Calibri", sans-serif;
-    font-size: small;
-    color: #151066;
 }
 
 /* без подчеркивания */
@@ -86,109 +30,33 @@ tr.off, td.off {
     text-decoration: none;
 }
 
-.titlereg {
-    font-family: Arial, sans-serif;
-    background-color: #f1ea76;
-}
-
-.titleos {
-    font-family: Arial, sans-serif;
-    background-color: #63e9f1;
-}
-
-/* заголовок страницы поиска */
-.titlesearch {
-    font-family: Arial, sans-serif;
-    background-color: #e9f8eb;
-}
-
-/* краткое наименование */
-.shortname {
-    font-size: small;
-    font-weight: normal;
+/* редактируемое поле */
+.edt, .edtdat {
+    background-color: #fefbdc;
+    font-size: 3vw;
 }
 
 /* редактируемое поле */
-.edt, .edtsel {
-    background-color: #fefbdc;
+#myedt {
+    background-color: #4750fe;
+    color:  red;
+    font-size: 2vw;
 }
-
 /* редактируемое поле под мышью */
-.edt:hover, .edtsel:hover {
+.edt:hover, .edtdat:hover {
     background-color: #fffea9;
 }
 
-/* номер региона у чужого документа */
-.litlereg {
-    font-family: Arial, sans-serif;
-    font-size: 9px;
-    color: #785bbe;
-}
-
-/* кнопка входа-выхода на списке записей */
-.inputoutput {
-    font-size: 12px;
-    color: #737cff;
-    background-color: #f0f7d1;
-    border: 1px;
-}
-
-/* кнопка логин по IP */
-.loginipadr {
-    font-size: 12px;
-    color: #fff48c;
-    background-color: #7aa67a;
-    border: 1px solid #1a1ee3;
-    border-radius: 4px;
-}
-
-/* текст с ИНН оператора */
-.txtinn {
-    color: #162594;
-    font-family: "Calibri", sans-serif;
-    /* font-size: small; */
-}
-
-/* текст с MAC адресом */
-.txtmac {
-    font-family: Calibri, sans-serif;
-}
-
-/* кнопка перехода к лицензиям РКН */
-.gotolicense {
-    font-size: 8pt;
-    color: #0b8a0e;
-    background-color: #e3edf4;
-    border: 0px solid #48a2c3;
-    border-radius: 3px;
-}
-
-
 .showdocnote {
     font-family: Calibri, sans-serif;
-    font-size: medium;
+    font-size: 3vw;
     color: #144f03;
 }
 
 .gotodocnote {
     font-family: Calibri, sans-serif;
-    font-size: medium;
+    font-size: 3vw;
     color: #e563c3;
-}
-
-table.dataTable tr.nrw td {
-    padding: 0px;
-}
-
-select.adduplink {
-    -moz-appearance: none;
-    width: 20px;
-    border: 1px solid #ccc;
-    background-color: #3ecc3c;
-    border-radius: 8px;
-}
-select.adduplink::-ms-expand {
-    display: none;
 }
 
 /* горизонтальная линия, которая размещается в клетке таблицы spis */
@@ -198,105 +66,23 @@ table.spis td hr {
     border-bottom: 1px solid #ffffff;
 }
 
-/* кнопка перехода к списку оправдания операторов */
-.gotoopers {
-    font-size: 1.1em;
-    color: #1316cb;
-    background-color: #f0f7d1;
-    border: 2px solid #c3353e;
-    border-radius: 10px;
-}
-
-/* заголовок выбор оператора для оправдания */
-.titleselop {
-    font-family: Arial, sans-serif;
-    background-color: #d9a9f4;
-}
-
 /* ввод нового оправдания */
-.inputnewexcuse {
+.inputnew {
     background: #bf93d5;
 }
 
-/* строка ввода оправдания */
-input.newtxt {
-    font-family: "Times New Roman", serif;
-    font-size: medium;
+/* стиль для элементов ввода форм */
+input[type=text], input[type=date], input[type=submit] {
+    font-size: 3vw;
 }
 
-/* выделение найденного слова в search */
-.fsrc {
-    color: #188819;
-    font-weight: bold;
-    font-style: italic;
-}
-
-/* ссылка для выбора оператора при выдаче агента */
-.apagoper {
-    background: #fefbdc;
-    padding: 4px;
-}
-
-/* таблица MAC и сер № */
-.macsn {
-    padding: 1px;
-    margin:  1px;
-    font-family: Consolas, monospace;
-    font-size: 14px;
-    color: #172b9c;
-}
-
-/* белые маленькие буквы для кол-ва задач с нарушениями в таб. агентов
-   делаем для того чтобы можно было сортировать по столбцу и этих букв было не видно */
-.white {
-    color: white;
-    font-size: 1px;
-    opacity: 0;
-}
-
-/* текст названия параметра дополнительной информации агента */
-.nampar {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: #0e1170;
-}
-
-/* текст параметра дополнительной информации агента */
-.txtpar {
-    font-family: Verdana, sans-serif;
-    font-size: 13px;
-}
-
-td.online {
-    background: lightgreen;
-    text-align: center;
-    font-size:  small;
-}
-td.online:before {content: "в сети"}
-
-td.offline {
-    background: red;
-    text-align: center;
-    font-size:  small;
-}
-td.offline:before {content: "не в сети"}
-
-/* стили отображения списка он-лайн состояний (showon.php) */
-p.agentname {
-    background: #5e1395;
-    color:      #e4f320;
-    padding:    4px;
-    margin:     2px 0px 2px 0px;
-}
-
-/* переход к документам без подчеркивания */
-a.godoc {
-    text-decoration: none;
-    color: #1310ab;
-}
-/* подсветить строку таблицу под мышью http://htmlbook.ru/faq/kak-sdelat-chtoby-stroka-tablitsy-menyala-tsvet */
-a.godoc:hover {
-    color: #c02430;
+/* стиль кнопки login */
+.buttonlogin {
+    font-size: 2vw;
+    color: #5b63c2;
+    background-color: #f7ce3f;
+    border: 2px;
+    border-radius: 8px;
 }
 
 .txtdolg {

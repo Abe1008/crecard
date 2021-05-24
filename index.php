@@ -18,7 +18,7 @@ require_once "common.php";
 // открытая БД $My_Db
 // переменные $creUid
 
-printHeadPageEdt("Данные о платежах");
+printHeadPage("Адаптивный - Данные о платежах");
 
 $sTit = $PayOff == 0? "Покупки": "Оплата";
 $sGo  = $PayOff == 0? "оплаты": "покупки";
@@ -35,10 +35,10 @@ $sdolg = '';
 if($dolg > 0) {
   $sdolg = "<span class=\"txtdolg\">долг $dolg</span>" ;
 }
-$sost = '<span class="txtostatok">остаток ' . Ostatok(). '</span>';
+$sost = '<span class="txtostatok">остаток&nbsp;' . Ostatok(). '</span>';
 $sdapla = '';
 if($mp > 0.005) {
-  $sdapla = '<span class="txtminpay">дата платежа ' . datePay() . " мин.сумма $mp</span>";
+  $sdapla = '<span class="txtminpay">дата&nbsp;платежа&nbsp;' . datePay() . " мин.сумма&nbsp;$mp</span>";
 }
 
 // дата новой записи
@@ -51,35 +51,34 @@ echo <<<_EOF
 
 <table width="100%" border="0">
 <tr>
-<td width="30%" class="showdocnote"><b>$sTit</b></td>
+<td width="15%" class="showdocnote"><b>$sTit</b></td>
 <td class="showdocnote" align="right">$sdolg &nbsp; $sost &nbsp; $sdapla</td>
-<td width="9%" align="right">$form_login</td>
-<td width="20%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
+<td width="11%" align="right">$form_login</td>
+<td width="15%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
 </tr>
 </table>
 
-  <div class="inputnewexcuse">
+  <div class="inputnew">
   <hr>
   <table><tr>
-  <form  action="paysave.php" method="post" enctype="multipart/form-data">
+  <form  action="paysave.php" method="post" enctype="multipart/form-data" >
   <input type="hidden" name="newrecord" value="$Uid">
-  <td><input type="date" name="f_dat"  value="$datt"></td>
-  <td><input type="text" name="f_sm"   placeholder="сумма" size="12" class="newtxt"></td>
-  <td><input type="text" name="f_prim" placeholder="примечание" size="64"></td> 
-    <input type="hidden" size="20" name="f_payoff" value="$PayOff"> 
-    <!-- <td><input type="file" name="filename"></td>  -->
-  <td><input type="submit" value="новый платеж" class="info"></td>
+  <td><input type="date" name="f_dat"  value="$datt" ></td>
+  <td><input type="text" name="f_sm"   size=8 placeholder="сумма" ></td>
+  <td><input type="text" name="f_prim" size=8 placeholder="примечание" ></td> 
+  <input type="hidden" name="f_payoff" value="$PayOff"> 
+  <td><input type="submit" value="добавить" class="info"></td>
   </form>
   </tr></table>
   </div>
 
 <table width="100%" class="spis" border="1">
 <thead class="thdr"><tr>
- <th width="6%">дата</th>
- <th width="10%">сумма</th>
+ <th width="18%">дата</th>
+ <th width="16%">сумма</th>
  <th>примечание</th>
  <th width="4%">док.</th>
- <th width="18px">уд.</th>
+ <th width="4%">уд.</th>
 </tr></thead>
 <tbody class="hightlight">
 
@@ -133,10 +132,7 @@ echo "</tbody></table>\n";
 echo "<div id='toTop'>наверх</div>\n";
 
 // подключим javascript для таблицы
-echo '<script type="text/javascript" language="javascript" src="zindex.js"></script>';
-
-// TODO сейчас не надо
-//$jsonTip = makeTipSelectJson();
+//echo '<script type="text/javascript" language="javascript" src="zindex.js"></script>';
 
 // подключим редактирование полей
 echo <<<_EOF
@@ -145,7 +141,8 @@ echo <<<_EOF
 $(document).ready(function(){
   // подключим редактирование "в таблице на месте"
   $('td.edt').editable('paysave.php', {
-    placeholder: '...'
+    placeholder: '',
+    inputcssclass: 'myedt'
   });
   // подключим добавление документов
   $('.fileupload').fileupload()

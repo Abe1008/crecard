@@ -30,14 +30,14 @@ $GraceDays  = intval($g); // безпроцентный период
 
 if($RDay < 1 || $GraceDays < 1) echo("Нет данных для расчета ");
 
-$ssql = "CREATE TEMPORARY TABLE tmp_tabl (
-              id int auto_increment primary key,
-              uid int,
-              dat datetime,
-              sm  double,
-              ost double default 0
-          );          
-        ";
+//$ssql = "CREATE TEMPORARY TABLE tmp_tabl (
+//              id int auto_increment primary key,
+//              uid int,
+//              dat datetime,
+//              sm  double,
+//              ost double default 0
+//          );
+//        ";
 execSQL("DELETE FROM tmp_tabl WHERE uid=$Uid;");
 
 // вычислим общую сумму оплат
