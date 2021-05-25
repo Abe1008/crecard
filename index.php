@@ -20,8 +20,8 @@ require_once "common.php";
 
 printHeadPage("Адаптивный - Данные о платежах");
 
-$sTit = $PayOff == 0? "Покупки": "Оплата";
-$sGo  = $PayOff == 0? "оплаты": "покупки";
+$sTit = $PayOff == 0? "Расходы" : "Оплата";
+$sGo  = $PayOff == 0? "оплата"  : "расходы";
 $ipay = $PayOff == 0? 1: 0;
 
 // сумма долга
@@ -38,7 +38,7 @@ if($dolg > 0) {
 $sost = '<span class="txtostatok">остаток&nbsp;' . Ostatok(). '</span>';
 $sdapla = '';
 if($mp > 0.005) {
-  $sdapla = '<span class="txtminpay">дата&nbsp;платежа&nbsp;' . datePay() . " мин.сумма&nbsp;$mp</span>";
+  $sdapla = '<span class="txtminpay">платеж&nbsp;' . datePay() . " сумма&nbsp;$mp</span>";
 }
 
 // дата новой записи
@@ -61,11 +61,11 @@ echo <<<_EOF
   <div class="inputnew">
   <hr>
   <table><tr>
-  <form  action="paysave.php" method="post" enctype="multipart/form-data" >
+  <form action="paysave.php" method="post" enctype="multipart/form-data">
   <input type="hidden" name="newrecord" value="$Uid">
-  <td><input type="date" name="f_dat"  value="$datt" ></td>
-  <td><input type="text" name="f_sm"   size=8 placeholder="сумма" ></td>
-  <td><input type="text" name="f_prim" size=8 placeholder="примечание" ></td> 
+  <td><input type="date" name="f_dat"  value="$datt"></td>
+  <td><input type="text" name="f_sm"   size=8 placeholder="сумма"></td>
+  <td><input type="text" name="f_prim" size=8 placeholder="примечание"></td> 
   <input type="hidden" name="f_payoff" value="$PayOff"> 
   <td><input type="submit" value="добавить" class="info"></td>
   </form>
@@ -87,7 +87,7 @@ _EOF;
 $sql = "SELECT id,dat,sm,prim, f.file_name 
         FROM pays LEFT JOIN p_files as f ON (pays.ifile=f.ifile)
         WHERE uid=$Uid AND payoff=$PayOff 
-        ORDER BY dat,id;";
+        ORDER BY dat DESC, id DESC;";
 $res = queryDb($sql); //
 while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
   $dats = dat2str($dat);
@@ -117,7 +117,7 @@ while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
   }
 
   echo "<tr>";
-  echo "<td $cledt id='D$id'>$dats</td>";  // D дата
+  echo "<td $cledt id='D$id'>$dats</td>";                   // D дата
   echo "<td $cledt id='S$id' align='right'>$sms</td>";      // S сумма
   echo "<td $cledt id='P$id'>$prim</td>";                   // P примечание
   echo "<td align='center'>$ff</td>";
@@ -140,9 +140,9 @@ echo <<<_EOF
 <script type="text/javascript" language="javascript">
 $(document).ready(function(){
   // подключим редактирование "в таблице на месте"
-  $('td.edt').editable('paysave.php', {
+  $('.edt').editable('paysave.php', {
     placeholder: '',
-    inputcssclass: 'myedt'
+    cssclass: 'myedt'    
   });
   // подключим добавление документов
   $('.fileupload').fileupload()

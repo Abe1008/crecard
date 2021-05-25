@@ -10,7 +10,7 @@ table.spis td {
     border:1px solid #4e6c6b;
     padding: 4px;
     background-color: #98d7a4;
-    font-size: 1vw;
+    font-size: 2vw;
 }
 
 /* подсветить строку таблицу под мышью http://htmlbook.ru/faq/kak-sdelat-chtoby-stroka-tablitsy-menyala-tsvet */
@@ -31,19 +31,13 @@ tbody.hightlight tr:hover {
 }
 
 /* редактируемое поле */
-.edt, .edtdat {
+.edt {
     background-color: #fefbdc;
     font-size: 3vw;
 }
 
-/* редактируемое поле */
-#myedt {
-    background-color: #4750fe;
-    color:  red;
-    font-size: 2vw;
-}
 /* редактируемое поле под мышью */
-.edt:hover, .edtdat:hover {
+.edt:hover {
     background-color: #fffea9;
 }
 
@@ -68,11 +62,16 @@ table.spis td hr {
 
 /* ввод нового оправдания */
 .inputnew {
-    background: #bf93d5;
+    background: #60c649;
 }
 
 /* стиль для элементов ввода форм */
 input[type=text], input[type=date], input[type=submit] {
+    font-size: 3vw;
+}
+
+/* стиль поля input в форме класса myedt при вводе в jeditable*/
+.myedt input {
     font-size: 3vw;
 }
 
@@ -117,3 +116,5 @@ input[type=text], input[type=date], input[type=submit] {
     border-radius: 4px;
     opacity: 0.8;
 }
+
+

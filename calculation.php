@@ -149,13 +149,17 @@ function  date2ymd(DateTime $dat)
 }
 
 /**
- * Преобразовать дату из SQL формат в русский
+ * Преобразовать дату из SQL формата в требуемый (русский) формат
  * @param string $strdat дата в формате SQL YYYY-MM-DD
- * @return string дата в русском формате ДД.ММ.ГГГГ
+ * @param string $format требуемый формат даты, если не задано, то ДД.ММ.ГГ
+ * @return string дата в русском (заданном) формате
  */
-function  date2rus($strdat)
+function  date2rus($strdat, $format = null)
 {
   $d = date_create($strdat);
-  $s = $d->format('d.m.Y');
+  if($format ==  null) {
+    $format = 'd.m.y';
+  }
+  $s = $d->format($format);
   return $s;
 }
