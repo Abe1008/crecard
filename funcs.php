@@ -29,6 +29,31 @@ define('PAYOFF', 'cre_payoff');
 define('CANEDIT', 'cre_canedit');
 
 /**
+ * Формирует начало страницы html
+ * @param string $title    заголовок страницы
+ */
+function printHeadPage($title)
+{
+  echo <<<_EOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ <title>$title</title>
+ <link rel="stylesheet" type="text/css" href="css/style.css">  
+ <link rel="stylesheet" type="text/css" href="css/stylefileload.css">
+ <script type="text/javascript" language="javascript" src="js/jquery.min.js"></script>
+ <script type="text/javascript" language="javascript" src="js/jquery.jeditable.js"></script>
+ <script type="text/javascript" language="javascript" src="js/vendor/jquery.ui.widget.js"></script>
+ <script type="text/javascript" language="javascript" src="js/jquery.fileupload.js"></script> 
+</head>
+<body>
+
+_EOF;
+}
+
+/**
  * Преобразование даты из формата SQL в строку русского формата DD.MM.YYYY
  * @param string $dat строка в формате SQL YYYY-MM-DD
  * @return string дата DD.MM.YYYY
@@ -82,35 +107,6 @@ function validateDate($dat, $format = 'Y-m-d')
 {
   $d = DateTime::createFromFormat($format, $dat);
   return ($d) && ($d->format($format) == $dat);
-}
-
-/**
- * Формирует начало страницы html
- * @param string $title    заголовок страницы
- */
-function printHeadPage($title)
-{
-  echo <<<_EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>$title</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">  
-  <link rel="stylesheet" type="text/css" href="css/stylefileload.css">
-  
-  <script type="text/javascript" language="javascript" src="js/jquery.min.js"></script>
-  
-  <script type="text/javascript" language="javascript" src="js/jquery.jeditable.js"></script>
-  
-  <script type="text/javascript" language="javascript" src="js/vendor/jquery.ui.widget.js"></script>
-  <script type="text/javascript" language="javascript" src="js/jquery.fileupload.js"></script> 
-
-</head>
-<body>
-
-_EOF;
 }
 
 /**
