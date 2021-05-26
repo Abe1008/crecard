@@ -18,7 +18,7 @@ require_once "common.php";
 // открытая БД $My_Db
 // переменные $creUid
 
-printHeadPage("Адаптивный - Данные о платежах");
+printHeadPage("Данные о платежах");
 
 $sTit = $PayOff == 0? "Расходы" : "Оплата";
 $sGo  = $PayOff == 0? "оплата"  : "расходы";
