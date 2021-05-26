@@ -9,7 +9,7 @@
  * Time: 14:36
  */
 /*
- * Регистрация пользователя в системе
+ * Авторизация пользователя в системе
  * аргумент goto - куда переходить после успешной регистрации
  * cmd - внутренний аргумент, определяющий логику обработки формы
  * error_message - надпись, выводимая перед формой login
@@ -28,12 +28,12 @@ $title ="Авторизация пользователя";
 $self = $_SERVER['PHP_SELF'];
 
 $error_message = '';
-if(array_key_exists('cre_error_message', $_SESSION)) {
-  $error_message = $_SESSION['cre_error_message']; // текст сообщения об ошибке
+if(array_key_exists(ERRORMESSAGE, $_SESSION)) {
+  $error_message = $_SESSION[ERRORMESSAGE]; // текст сообщения об ошибке
 }
-unset($_SESSION['cre_error_message']);
+unset($_SESSION[ERRORMESSAGE]);
 
-$goto = $_REQUEST['goto'];  // куда переходить после успешной регистрации
+$goto = $_REQUEST['goto'];  // куда переходить после успешной авторизации
 // был аргумент goto - куда переходить?
 if(empty($goto)) {
   $i = strrpos($self, '/');
@@ -63,6 +63,7 @@ if($cmd == 0) {
   </table>  
   </form>
   
+  <p> <a href="registr.php" class="inputoutput">Пройти регистрацию</a> </p>
   <p> <a href="$goto" class="inputoutput">продолжить без авторизации</a> </p>
 _EOF;
   printEndPage();
@@ -90,7 +91,7 @@ function malogin($user, $pass, $goto, $self)
   // обработка ввода данных формы
   $u = str_replace("'", "", $user);   // из имени уберем апострофы
   $p = str_replace("'", "", $pass);   // из пароля уберем апостофы
-  $sql = "SELECT uid FROM users WHERE email='$u' AND pwd='$p'";
+  $sql = "SELECT uid FROM users WHERE email='$u' AND pwd='$p';";
   $ui = intval(getVal($sql));
   if($ui) {
     // авторизация выполнена

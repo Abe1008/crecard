@@ -28,6 +28,9 @@ define('PAYOFF', 'cre_payoff');
 // признак возможности редактировать
 define('CANEDIT', 'cre_canedit');
 
+// сообщение об ошибке
+define('ERRORMESSAGE', 'cre_error_message');
+
 /**
  * Формирует начало страницы html
  * @param string $title    заголовок страницы
@@ -359,11 +362,16 @@ function canEdit($flag = null)
   return sessionVal(CANEDIT, 0, $flag);
 }
 
+function errorMessage($msg = null)
+{
+  return sessionVal(ERRORMESSAGE, '', $msg);
+}
+
 /**
  * Установить или получить значение переменной в сессии
- * @param string   $nameVal  имя переменной
- * @param int      $initVal  значение по-умолчанию
- * @param null|int $val      устанавливаемой значение
+ * @param string      $nameVal  имя переменной
+ * @param mixed       $initVal  значение по-умолчанию
+ * @param null|mixed  $val      устанавливаемое значение
  * @return int значение
  */
 function sessionVal($nameVal, $initVal, $val = null)

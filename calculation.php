@@ -24,7 +24,7 @@ require_once "common.php";
 
 $starttime = microtime(true); // начало скрипта
 
-list($r,$g, $lim) = getVals("SELECT rday, gracedays, lim  FROM users WHERE uid=$Uid");
+list($r,$g, $lim) = getVals("SELECT rday, grace, lim  FROM users WHERE uid=$Uid");
 $RDay       = intval($r); // расчетный день
 $GraceDays  = intval($g); // безпроцентный период
 

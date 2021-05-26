@@ -43,6 +43,6 @@ create table users
   pwd       varchar(255)                        not null comment 'пароль',
   lim       double    default 0                 not null comment 'кредитный лимит',
   rday      int       default 30                not null comment 'расчетный день (начало нового расчетного периода)',
-  gracedays int       default 25                not null comment 'кол-во льготных дней после даты выписки',
+  grace     int       default 25                not null comment 'кол-во льготных дней после даты выписки',
   wdat      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment 'время создания (модификации)'
 )  comment 'пользователи' engine = MyISAM;
