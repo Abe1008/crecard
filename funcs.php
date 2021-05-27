@@ -288,7 +288,7 @@ function makeFormLogin($UrlGoto = null)
   if(empty($UrlGoto)) $UrlGoto = $_SERVER['PHP_SELF'];
   $r = "<form method='post' action='login.php' $t>" .
        "<input type='hidden' name='goto' value='$UrlGoto'>" .
-       "<input type='submit' class='buttonlogin' value='$s'>" .
+       "<input type='submit' class='btnlogin' value='$s'>" .
        "</form>";
   return $r;
 }
@@ -384,4 +384,14 @@ function sessionVal($nameVal, $initVal, $val = null)
     $_SESSION[$nameVal] = $val;
   }
   return $_SESSION[$nameVal];
+}
+
+/**
+ * @return string проверочный код, случайное число
+ */
+function makeCode()
+{
+  $d = date('gs');
+  $r = rand(1001,9999);
+  return $d . $r;
 }

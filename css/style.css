@@ -62,26 +62,28 @@ table.spis td hr {
 
 /* ввод нового оправдания */
 .inputnew {
-    background: #60c649;
+    background: #e9e783;
 }
 
 /* стиль для элементов ввода форм */
 input[type=text], input[type=date], input[type=number], input[type=submit] {
     font-size: 3vw;
+    border-style: solid;
+}
+
+input[type=submit] {
+    background: #50ce3a;
+    border-radius: 6px;
+}
+
+input.btnlogin {
+    color: #edd91b;
+    background: #9cb1e4;
 }
 
 /* стиль поля input в форме класса myedt при вводе в jeditable*/
 .myedt input {
     font-size: 3vw;
-}
-
-/* стиль кнопки login */
-.buttonlogin {
-    font-size: 2vw;
-    color: #5b63c2;
-    background-color: #f7ce3f;
-    border: 2px;
-    border-radius: 8px;
 }
 
 .txtdolg {

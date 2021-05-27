@@ -53,7 +53,7 @@ echo <<<_EOF
 <tr>
 <td width="15%" class="showdocnote"><b>$sTit</b></td>
 <td class="showdocnote" align="right">$sdolg &nbsp; $sost &nbsp; $sdapla</td>
-<td width="11%" align="right">$form_login</td>
+<td width="11%" align="right">&nbsp;</td>
 <td width="15%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
 </tr>
 </table>
@@ -126,6 +126,9 @@ while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
 }
 $res->close();
 echo "</tbody></table>\n";
+
+// кнопка вход/выход
+echo "<p> $form_login";
 
 // кнопка скролирования вверх
 // http://webmastermix.ru/raznoe/300-knopka-vverkh-dlya-saita.html

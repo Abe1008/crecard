@@ -63,7 +63,8 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="registr.php" class="inputoutput">Пройти регистрацию</a> </p>
+  <p> <a href="registr.php" class="inputoutput">Регистрация нового пользователя</a> </p>
+  <p> <a href="renewpwd.php" class="inputoutput">Заменить пароль</a> </p>
   <p> <a href="$goto" class="inputoutput">продолжить без авторизации</a> </p>
 _EOF;
   printEndPage();

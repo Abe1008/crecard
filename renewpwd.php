@@ -1,21 +1,21 @@
 <?php
 /**
  * Copyright (c) 2021. Alexey Eremin
- * 26.05.21 9:23
+ * 27.05.21 10:21
  */
 
 /**
  * Created by PhpStorm.
  * User: ae
- * Date: 26.05.2021
- * Time: 9:23
+ * Date: 27.05.2021
+ * Time: 10:21
  */
 /*
- * Регистрация нового пользователя
+ *  Восстановление пароля
  */
 
 // код верификации данных регистрации
-define('VERIFY', '7389451959');
+define('VERIFY', '6348955746');
 // имя сессионной переменной для хранения промежуточных данных
 define('DATANAME', 'RenewData');
 
@@ -26,7 +26,7 @@ if($Uid > 0) {
   die("Вы зарегистрированы");
 }
 
-$title ="Регистрация пользователя";
+$title ="Восстановление пароля пользователя";
 
 $self = $_SERVER['PHP_SELF'];
 
@@ -34,7 +34,7 @@ $self = $_SERVER['PHP_SELF'];
 $error_message = errorMessage();
 errorMessage(''); // сбросим сообщение об ошибке
 
-$goto = $_REQUEST['goto'];  // куда переходить после успешной регистрации
+$goto = $_REQUEST['goto'];  // куда переходить после успешной обработки
 // был аргумент goto - куда переходить?
 if(empty($goto)) {
   $i = strrpos($self, '/');
@@ -59,17 +59,14 @@ if($cmd == 0) {
   $ipadr = $_SERVER['REMOTE_ADDR'];
   // вывод формы
   echo <<<_EOF
-  <h3>Регистрация</h3>
+  <h3>Восстановление пароля</h3>
+  <p>Укажите электронный адрес, который указывали при регистрации</p>
   <form action='$self' method='POST'><br>
   <table border="0">
   <tr><td>E-mail:</td><td><input type='text'            name='new_usr'></td></tr>
-  <tr><td>Пароль:</td><td><input type='password'        name='new_pwd'></td></tr>
-  <tr><td>Лимит:</td><td><input type='number'           name='new_lim' value="65000"></td></tr>
-  <tr><td>расчетный день:</td><td><input type='number'  name='new_rday' value="1"></td></tr>
-  <tr><td>грэйс период:</td><td><input type='number'    name='new_grace' value="25"></td></tr>
   <input type='hidden' name='cmd' value="102">
   <input type='hidden' name='goto' value="$goto">
-  <tr><td></td><td align="right"><input type='submit' value='регистрация'></td></tr>
+  <tr><td></td><td align="right"><input type='submit' value='продолжить'></td></tr>
   </table>  
   </form>
   
@@ -83,46 +80,39 @@ _EOF;
 if($cmd == 102) {
   sleep(2);
 
-  printHeadPage("Подтвердите электронную почту");
+  printHeadPage("Восстановление пароля");
 
   // обработка ввода данных формы
   $usr   = str_replace("'", '', $_REQUEST['new_usr']);
-  $pwd   = $_REQUEST['new_pwd'];
-  $lim   = $_REQUEST['new_lim'];
-  $rday  = $_REQUEST['new_rday'];
-  $grace = $_REQUEST['new_grace'];
 
-  if(empty($usr) || empty($pwd) || empty($lim) || empty($rday) || empty($grace)) {
+  if(empty($usr)) {
     die("Введены некорректные данные. Повторите <a href='$self'>ввод</a></body></html>");
   }
 
   // проверим имя на дублирование
-  $cnt = getVal("SELECT COUNT(*) FROM users WHERE email='$usr';");
-  if(intval($cnt) > 0) {
-    die("В системе уже зарегистрирован пользователь: $usr</body></html>");
+  list($cnt,$uid) = getVals("SELECT COUNT(*), MAX(uid) FROM users WHERE email='$usr';");
+  if(intval($cnt) < 1 || empty($uid)) {
+    die("В системе нет указанной электронной почты: $usr</body></html>");
   }
 
   // код подтверждения
   $trustcode = makeCode();
   // регистрационные данные
-  $regdata = array(
+  $renewdata = array(
       'usr'   => $usr,
-      'pwd'   => $pwd,
-      'lim'   => $lim,
-      'rday'  => $rday,
-      'grace' => $grace,
+      'uid'   => intval($uid),
       'trustcode' => $trustcode,
       'verify' => VERIFY
   );
   // запомним в сессионной переменной данные регистрации
-  sessionVal(DATANAME, $regdata, $regdata);
+  sessionVal(DATANAME, $renewdata, $renewdata);
 
   // отправить проверочный код по электронной почте
   sendCode($usr, $trustcode);
 
-  sleep(4);
+  sleep(5);
 
-  $sbj = SUBJECTREGISTRATION; // Текст тема письма
+  $sbj = SUBJECTRENEWPWD; // Текст тема письма
 
   echo <<<_EOF
 <table>
@@ -130,19 +120,18 @@ if($cmd == 102) {
 <td>Вы указали следующие данные:</td>  
 </tr>
 <tr><td>E-mail:</td><td>$usr</td></tr>
-<tr><td>Пароль:</td><td>***</td></tr>
-<tr><td>Лимит:</td> <td>$lim</td></tr>
-<tr><td>расчетный день:</td><td>$rday</td></tr>
-<tr><td>грэйс период:</td><td>$grace</td></tr>
 </table>
 
 <p>На электронную почту выслан проверочный код.<br> 
  Тема письма "$sbj". 
  <br><small>Если письма не видно, то проверьте папку "Спам".</small></p>
- <p>Введите код из письма</p>
+ 
+ <p>Введите новый пароль и код из письма</p>
 
 <form action='$self' method='POST'><br>
   <table border="0">
+  <tr><td>Новый пароль:</td><td><input type='text' name='new_pwd1'></td></tr>
+  <tr><td>еще раз Новый пароль:</td><td><input type='text' name='new_pwd2'></td></tr>
   <tr><td>код из письма:</td><td><input type='number' name='new_trustcode'></td></tr>  
   <input type='hidden' name='cmd' value="103">
   <input type='hidden' name='goto' value="$goto">
@@ -159,39 +148,41 @@ _EOF;
 if($cmd == 103) {
   // введенный код подтверждения
   $new_trustcode = intval($_REQUEST['new_trustcode']);
+  // пароли
+  $new_pwd1 = $_REQUEST['new_pwd1'];
+  $new_pwd2 = $_REQUEST['new_pwd2'];
 
   // данные регистрации
-  $regdata = sessionVal(DATANAME, 0);
+  $renewdata = sessionVal(DATANAME, 0);
   // код верификации данных
-  $verify = intval($regdata['verify']);
+  $verify = intval($renewdata['verify']);
   // код подтверждения
-  $trustcode = intval($regdata['trustcode']);
+  $trustcode = intval($renewdata['trustcode']);
+  // код пользователя
+  $uid = intval($renewdata['uid']);
 
   printHeadPage("Подтверждение регистрации");
 
   // mсверим коды
-  if(VERIFY != $verify || $new_trustcode != $trustcode) {
-    die("<h3>Неправильные данные</h3><a href='$self'>повторить</a></body></html>");
+  if(VERIFY != $verify || $new_trustcode != $trustcode || $uid < 1 || strcmp($new_pwd1,$new_pwd2) != 0) {
+    die("<h4>Неправильные данные</h4><a href='$self'>повторить</a></body></html>");
   }
 
   // обработка данных
-  $usr   = str_replace("'", '', $regdata['usr']);
-  $pwd   = str_replace("'", '', $regdata['pwd']);
-  $lim   = intval($regdata['lim']);
-  $rday  = intval($regdata['rday']);
-  $grace = intval($regdata['grace']);
-  // записать регистрационные данные
-  $sql = "INSERT INTO users(email,pwd,lim,rday,grace) VALUES('$usr', '$pwd', $lim, $rday, $grace);";
+  $pwd   = str_replace("'", '', $new_pwd1);
+  // обновить пароль
+  $sql = "UPDATE users SET pwd='$pwd' WHERE uid=$uid;";
   $a = execSQL($sql);
   if($a == 1) {
+    $usr = $renewdata['usr'];
     echo <<<_EOF
-      <h4>Данные регистрации подтверждены</h4>
-      <p>Новый пользователь $usr записан в систему</p>
+      <h4>Новый пароль установлен</h4>
+      <p>Для пользователя $usr установлен новый пароль</p>
       <p><a href="login.php">Зарегистрируйтесь в системе, используя свои учетные данные -
       электронную почту и пароль</a></p>
 _EOF;
   } else {
-    echo "<p>Ошибка записи нового пользователя</p>";
+    echo "<p>Ошибка записи нового пароля</p>";
   }
 
   printEndPage();
@@ -211,5 +202,5 @@ function sendCode($email, $code)
   $head = "MIME-Version: 1.0\r\n";
   $head .= "Content-type: text/html; charset=UTF-8\r\n";
   $head .= 'From: <crecard>' . "\r\n";
-  mail($email, SUBJECTREGISTRATION, MsgVerification($code), $head);
+  mail($email, SUBJECTRENEWPWD, MsgVerification($code), $head);
 }
