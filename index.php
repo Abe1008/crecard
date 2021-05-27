@@ -35,10 +35,11 @@ $sdolg = '';
 if($dolg > 0) {
   $sdolg = "<span class=\"txtdolg\">долг $dolg</span>" ;
 }
-$sost = '<span class="txtostatok">остаток&nbsp;' . Ostatok(). '</span>';
+$ost = Ostatok();
+$sost = "<tr><td>$sdolg</td><td><span class='txtostatok'>&nbsp;остаток&nbsp;$ost</span></td></tr>";
 $sdapla = '';
 if($mp > 0.005) {
-  $sdapla = '<span class="txtminpay">платеж&nbsp;' . datePay() . " сумма&nbsp;$mp</span>";
+  $sdapla = '<tr><td><span class="txtminpay">платеж&nbsp;' . datePay() . "</span></td><td>&nbsp;сумма&nbsp;$mp</span></td></tr>";
 }
 
 // дата новой записи
@@ -51,9 +52,8 @@ echo <<<_EOF
 
 <table width="100%" border="0">
 <tr>
-<td width="15%" class="showdocnote"><b>$sTit</b></td>
-<td class="showdocnote" align="right">$sdolg &nbsp; $sost &nbsp; $sdapla</td>
-<td width="11%" align="right">&nbsp;</td>
+<td width="20%" class="showdocnote"><b>$sTit</b></td>
+<td class="showdocnote"><table border="0">$sost $sdapla</table></td>
 <td width="15%" align="right"><a href="index.php?payoff=$ipay" class="gotodocnote">$sGo</a></td>
 </tr>
 </table>
