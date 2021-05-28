@@ -24,7 +24,8 @@ create table pays
   sm     double default 0         not null comment 'сумма платежа',
   payoff int    default 0         not null comment 'признак погашения долга',
   prim   varchar(255)             null     comment 'примечание',
-  ifile  int                      null     comment 'файл вложения (например скан чека)'
+  ifile  int                      null     comment 'файл вложения (например скан чека)',
+  wdat   timestamp default CURRENT_TIMESTAMP not null comment 'время создания записи'
 )  comment 'платежи пользователей' engine = MyISAM charset = utf8;
 
 create table tmp_tabl
