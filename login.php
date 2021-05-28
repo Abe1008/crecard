@@ -63,9 +63,9 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="registr.php" class="nounder">Регистрация нового пользователя</a> </p>
-  <p> <a href="renewpwd.php" class="nounder">Восстановить пароль</a> </p>
-  <p> <a href="$goto" class="nounder">продолжить без авторизации</a> </p>
+  <p> <a href="registr.php" class="gotopg">Регистрация нового пользователя</a> </p>
+  <p> <a href="renewpwd.php" class="gotopg">Восстановить пароль</a> </p>
+  <p> <a href="$goto" class="gotopg">продолжить без авторизации</a> </p>
 _EOF;
   printEndPage();
   exit();

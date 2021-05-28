@@ -28,11 +28,15 @@ tbody.hightlight tr:hover {
 /* без подчеркивания */
 .nounder {
     text-decoration: none;
+}
+
+/* переход на страницы по паролям */
+.gotopg {
+    text-decoration: none;
     font-family: Calibri,sans-serif;
     border-bottom-style: dotted;
     background: cornsilk
 }
-
 /* редактируемое поле */
 .edt {
     background-color: #fefbdc;

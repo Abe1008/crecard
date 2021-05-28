@@ -76,7 +76,7 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="$goto" class="nounder">продолжить без регистрации</a> </p>
+  <p> <a href="$goto" class="gotopg">продолжить без регистрации</a> </p>
 _EOF;
   printEndPage();
   exit();
