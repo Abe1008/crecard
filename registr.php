@@ -47,6 +47,9 @@ if(array_key_exists('cmd', $_REQUEST)) {
   $cmd = intval($_REQUEST['cmd']); // код команды
 }
 
+// ссылка на себя
+$repeat = "<a href='$self'>повторить</a>";
+
 // начальный этап - ввод данных
 if($cmd == 0) {
   printHeadPage($title);
@@ -59,13 +62,13 @@ if($cmd == 0) {
   $ipadr = $_SERVER['REMOTE_ADDR'];
   // вывод формы
   echo <<<_EOF
-  <h3>Регистрация</h3>
+  <h3>Регистрация нового пользователя</h3>
   <form action='$self' method='POST'><br>
   <table border="0">
   <tr><td>E-mail:</td><td><input type='text'            name='new_usr'></td></tr>
   <tr><td>Пароль:</td><td><input type='password'        name='new_pwd'></td></tr>
   <tr><td>Лимит:</td><td><input type='number'           name='new_lim' value="65000"></td></tr>
-  <tr><td>расчетный день:</td><td><input type='number'  name='new_rday' value="1"></td></tr>
+  <tr><td>расчетный день:</td><td><input type='number'  name='new_rday' value="30"></td></tr>
   <tr><td>грэйс период:</td><td><input type='number'    name='new_grace' value="25"></td></tr>
   <input type='hidden' name='cmd' value="102">
   <input type='hidden' name='goto' value="$goto">
@@ -73,7 +76,7 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="$goto" class="inputoutput">продолжить без регистрации</a> </p>
+  <p> <a href="$goto" class="nounder">продолжить без регистрации</a> </p>
 _EOF;
   printEndPage();
   exit();
@@ -99,7 +102,7 @@ if($cmd == 102) {
   // проверим имя на дублирование
   $cnt = getVal("SELECT COUNT(*) FROM users WHERE email='$usr';");
   if(intval($cnt) > 0) {
-    die("В системе уже зарегистрирован пользователь: $usr</body></html>");
+    die("В системе уже зарегистрирован пользователь: $usr. $repeat</body></html>");
   }
 
   // код подтверждения
@@ -171,11 +174,11 @@ if($cmd == 103) {
 
   // mсверим коды
   if(VERIFY != $verify || $new_trustcode != $trustcode) {
-    die("<h3>Неправильные данные</h3><a href='$self'>повторить</a></body></html>");
+    die("<h4>Неправильные данные</h4> $repeat</body></html>");
   }
 
   // обработка данных
-  $usr   = str_replace("'", '', $regdata['usr']);
+  $usr   = str_replace("'", '', strtolower($regdata['usr']));
   $pwd   = str_replace("'", '', $regdata['pwd']);
   $lim   = intval($regdata['lim']);
   $rday  = intval($regdata['rday']);
@@ -191,7 +194,7 @@ if($cmd == 103) {
       электронную почту и пароль</a></p>
 _EOF;
   } else {
-    echo "<p>Ошибка записи нового пользователя</p>";
+    echo "<p>Ошибка записи нового пользователя. $repeat</p>";
   }
 
   printEndPage();

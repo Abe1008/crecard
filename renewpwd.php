@@ -47,6 +47,9 @@ if(array_key_exists('cmd', $_REQUEST)) {
   $cmd = intval($_REQUEST['cmd']); // код команды
 }
 
+// ссылка на себя
+$repeat = "<a href='$self'>повторить</a>";
+
 // начальный этап - ввод данных
 if($cmd == 0) {
   printHeadPage($title);
@@ -60,7 +63,7 @@ if($cmd == 0) {
   // вывод формы
   echo <<<_EOF
   <h3>Восстановление пароля</h3>
-  <p>Укажите электронный адрес, который указывали при регистрации</p>
+  <p>Введите электронный адрес, указанный при регистрации</p>
   <form action='$self' method='POST'><br>
   <table border="0">
   <tr><td>E-mail:</td><td><input type='text'            name='new_usr'></td></tr>
@@ -70,7 +73,7 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="$goto" class="inputoutput">продолжить без регистрации</a> </p>
+  <p> <a href="$goto" class="nounder">продолжить без регистрации</a> </p>
 _EOF;
   printEndPage();
   exit();
@@ -83,16 +86,16 @@ if($cmd == 102) {
   printHeadPage("Восстановление пароля");
 
   // обработка ввода данных формы
-  $usr   = str_replace("'", '', $_REQUEST['new_usr']);
+  $usr   = str_replace("'", '', strtolower($_REQUEST['new_usr']));
 
   if(empty($usr)) {
-    die("Введены некорректные данные. Повторите <a href='$self'>ввод</a></body></html>");
+    die("Введены некорректные данные. $repeat</body></html>");
   }
 
   // проверим имя на дублирование
   list($cnt,$uid) = getVals("SELECT COUNT(*), MAX(uid) FROM users WHERE email='$usr';");
   if(intval($cnt) < 1 || empty($uid)) {
-    die("В системе нет указанной электронной почты: $usr</body></html>");
+    die("В системе нет указанной электронной почты: $usr. $repeat</body></html>");
   }
 
   // код подтверждения
@@ -165,7 +168,7 @@ if($cmd == 103) {
 
   // mсверим коды
   if(VERIFY != $verify || $new_trustcode != $trustcode || $uid < 1 || strcmp($new_pwd1,$new_pwd2) != 0) {
-    die("<h4>Неправильные данные</h4><a href='$self'>повторить</a></body></html>");
+    die("<h4>Неправильные данные</h4> $repeat</body></html>");
   }
 
   // обработка данных
@@ -178,8 +181,8 @@ if($cmd == 103) {
     echo <<<_EOF
       <h4>Новый пароль установлен</h4>
       <p>Для пользователя $usr установлен новый пароль</p>
-      <p><a href="login.php">Зарегистрируйтесь в системе, используя свои учетные данные -
-      электронную почту и пароль</a></p>
+      <p><a href="login.php">Зарегистрируйтесь</a> в системе, используя 
+      свои учетные данные: электронную почту и пароль</p>
 _EOF;
   } else {
     echo "<p>Ошибка записи нового пароля</p>";

@@ -29,17 +29,18 @@ if(dirtyDolg()) {
   require_once "calculation.php";
 }
 $dolg  = Dolg(); // долг
-$mp = minimalPay(); // минимальный платеж для безпроцентности
-
 $sdolg = '';
 if($dolg > 0) {
-  $sdolg = "<span class=\"txtdolg\">долг $dolg</span>" ;
+  $sdolg = "долг $dolg" ;
 }
 $ost = Ostatok();
-$sost = "<tr><td>$sdolg</td><td><span class='txtostatok'>&nbsp;остаток&nbsp;$ost</span></td></tr>";
+$sost = "<tr><td class='txtdolg'>$sdolg</td><td class='txtostatok'>&nbsp;остаток $ost</td></tr>";
+
+$dp = datePay();
+$mp = minimalPay(); // минимальный платеж для безпроцентности
 $sdapla = '';
 if($mp > 0.005) {
-  $sdapla = '<tr><td><span class="txtminpay">платеж&nbsp;' . datePay() . "</span></td><td>&nbsp;сумма&nbsp;$mp</span></td></tr>";
+  $sdapla = "<tr class='txtminpay'><td >платеж $dp</td><td>&nbsp;сумма $mp</td></tr>";
 }
 
 // дата новой записи
@@ -101,7 +102,7 @@ while (list($id,$dat,$sm,$prim,$fnam) = fetchRow($res)) {
   $cledt = 'class="edt"';
   if($fnam) {
     // есть имя документа, его можно открыть
-    $ff = "<a href='files/$fnam' target='_blank' class='nounderline' title='открыть документ'>".
+    $ff = "<a href='files/$fnam' target='_blank' class='nounder' title='открыть документ'>" .
         "<img src='img/doc_open.png' alt='открыть документ'></a>";
     // есть документ - можно удалить документ
     $fr = "<a href='paysave.php?delDoc=$id' onclick='return confirm(\"Удалить документ?\")' title='удалить документ'><img src='img/doc_del.png' alt='удалить'></a>";

@@ -63,9 +63,9 @@ if($cmd == 0) {
   </table>  
   </form>
   
-  <p> <a href="registr.php" class="inputoutput">Регистрация нового пользователя</a> </p>
-  <p> <a href="renewpwd.php" class="inputoutput">Заменить пароль</a> </p>
-  <p> <a href="$goto" class="inputoutput">продолжить без авторизации</a> </p>
+  <p> <a href="registr.php" class="nounder">Регистрация нового пользователя</a> </p>
+  <p> <a href="renewpwd.php" class="nounder">Восстановить пароль</a> </p>
+  <p> <a href="$goto" class="nounder">продолжить без авторизации</a> </p>
 _EOF;
   printEndPage();
   exit();
@@ -90,7 +90,7 @@ echo "НЕИЗВЕСТНОЕ СОСТОЯНИЕ";
 function malogin($user, $pass, $goto, $self)
 {
   // обработка ввода данных формы
-  $u = str_replace("'", "", $user);   // из имени уберем апострофы
+  $u = str_replace("'", "", strtolower($user));   // из имени уберем апострофы и в нижний регистр
   $p = str_replace("'", "", $pass);   // из пароля уберем апостофы
   $sql = "SELECT uid FROM users WHERE email='$u' AND pwd='$p';";
   $ui = intval(getVal($sql));

@@ -26,8 +26,11 @@ tbody.hightlight tr:hover {
 }
 
 /* без подчеркивания */
-.nounderline {
+.nounder {
     text-decoration: none;
+    font-family: Calibri,sans-serif;
+    border-bottom-style: dotted;
+    background: cornsilk
 }
 
 /* редактируемое поле */
@@ -118,5 +121,3 @@ input.btnlogin {
     border-radius: 4px;
     opacity: 0.8;
 }
-
-
