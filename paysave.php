@@ -28,8 +28,8 @@ if($Uid < 0) die("?-Error-требуется авторизация");
 // Вставка новой записи?
 // аргумент: newrecord - код оператора
 if(array_key_exists('newrecord', $_REQUEST)) {
-  $opId  = intval($_REQUEST['newrecord']);
-  doNewrecord($opId);
+  $nr  = intval($_REQUEST['newrecord']);
+  doNewrecord($nr);
   exit();
 }
 
@@ -113,6 +113,17 @@ function  doNewrecord($userId)
   $f_Sm    = $_REQUEST['f_sm'];     // сумма платежа
   $f_Prim  = $_REQUEST['f_prim'];   // примечание
   $f_payoff= $_REQUEST['f_payoff']; // признак покупка/платеж
+  // проверим сумму
+  $arr=array();
+  preg_match('/[0-9]+[.]{0,1}[0-9]*/',$f_Sm,$arr);
+  if(count($arr)<1) {
+    die('Не указана сумма. <a href="index.php">продолжить</a>');
+  }
+  $f_Sm = $arr[0];  // число
+  if((float)$f_Sm < 0.01) {
+    die('Сумма меньше копейки. <a href="index.php">продолжить</a>');
+  }
+  //
   $sql = "INSERT INTO pays   (uid, dat, sm, prim, payoff)
                       VALUES (  ?,   ?,  ?,    ?,      ?);";
   $stmt = prepareSql($sql);
