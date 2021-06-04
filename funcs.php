@@ -9,27 +9,7 @@
 /*
  * Библиотека общих функций
  */
-// имя переменной сессии
-// код пользователя
-define('UID', 'cre_uid');
-// признак - грязный долг (надо пересчитывать)
-define('DIRTYDOLG', 'cre_dirty_dolg');
-// значение общего долга
-define('DOLG', 'cre_dolg');
-// значение остатка (лимит-долг)
-define('OSTATOK', 'cre_ostatok');
-// минимальная оплата в дату безпроцентной оплаты
-define('MINIMALPAY', 'cre_minimalpay');
-// дата безпроцентной оплаты
-define('DATEPAY', 'cre_datepay');
-
-// признак платежи-оплаты
-define('PAYOFF', 'cre_payoff');
-// признак возможности редактировать
-define('CANEDIT', 'cre_canedit');
-
-// сообщение об ошибке
-define('ERRORMESSAGE', 'cre_error_message');
+require_once "const.php";
 
 /**
  * Формирует начало страницы html
@@ -334,9 +314,9 @@ function  Ostatok($val = null)
   return  $r;
 }
 
-function  minimalPay($val = null)
+function  summaPay($val = null)
 {
-  $s = sessionVal(MINIMALPAY, 0, $val); // сумма минимального платежа
+  $s = sessionVal(SUMMAPAY, 0, $val); // сумма минимального платежа
   $r = sprintf('%.2f', 0 + $s);
   return  $r;
 }
@@ -353,8 +333,7 @@ function  payOff($val = null)
 
 /**
  * Вернуть значение возможности редактировать или установить его
- * @param null|int $flag установить значение признака или пусто, тогда
- *                       вернуть значение признака
+ * @param null|int $flag установить значение признака или null (вернуть значение)
  * @return int признак
  */
 function canEdit($flag = null)

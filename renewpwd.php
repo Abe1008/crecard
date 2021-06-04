@@ -14,11 +14,6 @@
  *  Восстановление пароля
  */
 
-// код верификации данных регистрации
-define('VERIFY', '6348955746');
-// имя сессионной переменной для хранения промежуточных данных
-define('DATANAME', 'RenewData');
-
 require_once "common.php";
 require_once "resource.php";
 

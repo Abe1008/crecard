@@ -1,12 +1,6 @@
 <?php
 /**
- * (C) 2018. Aleksey Eremin
- * 04.09.18 23:08
- *
- * Created by PhpStorm.
- * User: ae
- * Date: 27.02.2018
- * Time: 14:36
+ * (C) 2021. Aleksey Eremin
  */
 /*
  * Авторизация пользователя в системе
@@ -55,17 +49,16 @@ if($cmd == 0) {
   <h3>Авторизация</h3>
   <form action='$self' method='POST'><br>
   <table border="0">
-  <tr><td>E-mail:</td><td><input type='text' name='new_user'></td></tr>
-  <tr><td>Пароль:</td><td><input type='password'   name='new_pass'></td></tr>
+  <tr><td>E-mail:</td><td><input type='text' name='auth_name'></td></tr>
+  <tr><td>Пароль:</td><td><input type='password' name='auth_password'></td></tr>
   <input type='hidden' name='cmd' value="101">
   <input type='hidden' name='goto' value="$goto">
   <tr><td></td><td align="right"><input type='submit' value='войти'></td></tr>
   </table>  
   </form>
-  
-  <p> <a href="registr.php" class="gotopg">Регистрация нового пользователя</a> </p>
-  <p> <a href="renewpwd.php" class="gotopg">Восстановить пароль</a> </p>
-  <p> <a href="$goto" class="gotopg">продолжить без авторизации</a> </p>
+  <p> <a href="registr.php" class="gotopg">Регистрация нового пользователя</a></p>
+  <p> <a href="renewpwd.php" class="gotopg">Восстановить пароль</a></p>
+  <p> <a href="$goto" class="gotopg">продолжить без авторизации</a></p>
 _EOF;
   printEndPage();
   exit();
@@ -74,7 +67,7 @@ _EOF;
 // человеческий ввод данных формы, в пароле не должно быть апострофов.
 if($cmd == 101) {
   // обработка ввода данных формы
-  malogin($_REQUEST['new_user'], $_REQUEST['new_pass'], $goto, $self);
+  malogin($_REQUEST['auth_name'], $_REQUEST['auth_password'], $goto, $self);
   exit();
 }
 

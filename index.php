@@ -37,7 +37,7 @@ $ost = Ostatok();
 $sost = "<tr><td class='txtdolg'>$sdolg</td><td class='txtostatok'>&nbsp;остаток $ost</td></tr>";
 
 $dp = datePay();
-$mp = minimalPay(); // минимальный платеж для безпроцентности
+$mp = summaPay(); // минимальный платеж для безпроцентности
 $sdapla = '';
 if($mp > 0.005) {
   $sdapla = "<tr class='txtminpay'><td >платеж $dp</td><td>&nbsp;сумма $mp</td></tr>";

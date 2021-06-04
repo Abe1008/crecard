@@ -70,7 +70,7 @@ $minpay = 0.01 * intval(getVal("SELECT 100*SUM(ost) FROM tmp_tabl WHERE uid=$Uid
 // выставим флаги, суммы
 dirtyDolg(0);               // признак пересекта долга
 Dolg($sdolg);                   // сумма долга
-minimalPay($minpay);            // сумма минимального платежа
+summaPay($minpay);            // сумма минимального платежа
 datePay(date2rus($datpay));     // дата минимального платежа
 Ostatok($lim + $suop);      // остаток на счета
 
